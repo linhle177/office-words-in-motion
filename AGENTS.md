@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Landing page sections live in `src/components/landing/`, with copy and word data in `data.ts`; keeps content editable in one place.
+- Scroll and gesture interactions use the `motion` package (`motion/react`) inside `MotionConfig reducedMotion="user"`; one animation library, respects reduced-motion.

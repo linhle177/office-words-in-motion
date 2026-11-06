@@ -5,17 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Wordwork design system — "dictionary page".
+ * Paper, ink, one highlighter, one red editing pen.
+ * All colors use oklch.
  */
 
 @theme inline {
@@ -46,6 +38,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-highlight: var(--highlight);
+  --color-pen: var(--pen);
+  --color-faint: var(--faint);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -59,77 +54,98 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+@theme {
+  --text-mega: clamp(4.5rem, min(14vw, 21svh), 15rem);
+  --text-mega--line-height: 0.86;
+  --text-giant: clamp(3rem, 9vw, 8.5rem);
+  --text-giant--line-height: 0.92;
+  --text-headline: clamp(2.25rem, 5.4vw, 4.75rem);
+  --text-headline--line-height: 1.02;
+  --text-scene: clamp(2.25rem, 6vw, 5.5rem);
+  --text-scene--line-height: 1.06;
+  --text-flash: clamp(3rem, 5.6vw, 5.25rem);
+  --text-flash--line-height: 0.95;
+  --text-wordmark: 23.5vw;
+  --text-wordmark--line-height: 0.8;
+  --text-statement: clamp(1.75rem, 3.6vw, 3.25rem);
+  --text-statement--line-height: 1.12;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1;
+
+  --ease-ink: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --radius: 0.25rem;
+  --background: oklch(0.978 0.006 85);
+  --foreground: oklch(0.17 0.008 60);
+  --card: oklch(0.993 0.004 85);
+  --card-foreground: oklch(0.17 0.008 60);
+  --popover: oklch(0.17 0.008 60);
+  --popover-foreground: oklch(0.978 0.006 85);
+  --primary: oklch(0.17 0.008 60);
+  --primary-foreground: oklch(0.978 0.006 85);
+  --secondary: oklch(0.945 0.008 85);
+  --secondary-foreground: oklch(0.17 0.008 60);
+  --muted: oklch(0.945 0.008 85);
+  --muted-foreground: oklch(0.5 0.01 60);
+  --faint: oklch(0.78 0.008 70);
+  --accent: oklch(0.925 0.165 108);
+  --accent-foreground: oklch(0.17 0.008 60);
+  --highlight: oklch(0.925 0.165 108);
+  --pen: oklch(0.585 0.2 31);
+  --destructive: oklch(0.585 0.2 31);
+  --destructive-foreground: oklch(0.978 0.006 85);
+  --border: oklch(0.885 0.008 80);
+  --input: oklch(0.885 0.008 80);
+  --ring: oklch(0.17 0.008 60);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: oklch(0.978 0.006 85);
+  --sidebar-foreground: oklch(0.17 0.008 60);
+  --sidebar-primary: oklch(0.17 0.008 60);
+  --sidebar-primary-foreground: oklch(0.978 0.006 85);
+  --sidebar-accent: oklch(0.945 0.008 85);
+  --sidebar-accent-foreground: oklch(0.17 0.008 60);
+  --sidebar-border: oklch(0.885 0.008 80);
+  --sidebar-ring: oklch(0.17 0.008 60);
+
+  --shadow-card: 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
+    0 24px 48px -28px color-mix(in oklab, var(--foreground) 28%, transparent);
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
+  --background: oklch(0.17 0.008 60);
+  --foreground: oklch(0.978 0.006 85);
+  --card: oklch(0.21 0.008 60);
+  --card-foreground: oklch(0.978 0.006 85);
+  --popover: oklch(0.978 0.006 85);
+  --popover-foreground: oklch(0.17 0.008 60);
+  --primary: oklch(0.978 0.006 85);
+  --primary-foreground: oklch(0.17 0.008 60);
+  --secondary: oklch(0.25 0.008 60);
+  --secondary-foreground: oklch(0.978 0.006 85);
+  --muted: oklch(0.25 0.008 60);
+  --muted-foreground: oklch(0.7 0.01 70);
+  --faint: oklch(0.4 0.008 60);
+  --accent: oklch(0.925 0.165 108);
+  --accent-foreground: oklch(0.17 0.008 60);
+  --highlight: oklch(0.925 0.165 108);
+  --pen: oklch(0.68 0.19 31);
+  --destructive: oklch(0.68 0.19 31);
+  --destructive-foreground: oklch(0.17 0.008 60);
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --ring: oklch(0.978 0.006 85);
 }
 
 @layer base {
@@ -137,8 +153,68 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
   }
+
+  ::selection {
+    background-color: var(--color-highlight);
+    color: var(--color-accent-foreground);
+  }
+}
+
+/* Small uppercase mono labels: "§ 02 — The stand-up" */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Highlighter stroke whose width is driven by --sweep (0% → 100%). */
+@utility highlight-sweep {
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in oklab, var(--highlight) 70%, transparent) 0%,
+    var(--highlight) 8%,
+    var(--highlight) 92%,
+    color-mix(in oklab, var(--highlight) 60%, transparent) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: var(--sweep, 0%) 62%;
+  background-position: 0 78%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding-inline: 0.06em;
+  margin-inline: -0.06em;
+}
+
+/* Dotted dictionary underline for hover-to-define terms. */
+@utility term-underline {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--pen);
+}
+
+@utility paper-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+@utility hairline {
+  height: 1px;
+  background-color: var(--border);
 }

@@ -1,23 +1,55 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MotionConfig } from "motion/react";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { LearnedCounter, Nav, ScrollProgress } from "@/components/landing/Chrome";
+import { Closing } from "@/components/landing/Closing";
+import { Fields } from "@/components/landing/Fields";
+import { FlashDeck } from "@/components/landing/FlashDeck";
+import { Hero } from "@/components/landing/Hero";
+import { LearnedProvider } from "@/components/landing/learned";
+import { Manifesto } from "@/components/landing/Manifesto";
+import { MeetingScene } from "@/components/landing/MeetingScene";
+import { Quote, Stats } from "@/components/landing/Proof";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Wordwork — Speak the language of work" },
+      {
+        name: "description",
+        content:
+          "Workplace English vocabulary, five words a day. Learn the phrases your meetings, emails and Slack threads actually use.",
+      },
+      { property: "og:title", content: "Wordwork — Speak the language of work" },
+      {
+        property: "og:description",
+        content: "Workplace English vocabulary, five words a day. Sound like you run the meeting.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <LearnedProvider>
+        <ScrollProgress />
+        <Nav />
+        <main>
+          <Hero />
+          <MeetingScene />
+          <Manifesto />
+          <FlashDeck />
+          <Fields />
+          <Stats />
+          <Quote />
+          <Closing />
+        </main>
+        <LearnedCounter />
+      </LearnedProvider>
+    </MotionConfig>
   );
 }

@@ -12,4 +12,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    // Pre-bundle the animation library at startup so it never triggers a mid-session
+    // dependency re-optimization (which can load two copies of React and blank the page).
+    optimizeDeps: { include: ["motion/react"] },
+  },
 });

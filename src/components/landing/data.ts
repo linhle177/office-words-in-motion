@@ -45,8 +45,8 @@ export const REASONS = {
     body: "But about half of everyday English comes in ready-made phrases. Fluent speakers pull out {“push back the deadline”} in one go. You're assembling it word by word, while everyone waits.",
   },
   two: {
-    title: "You learned them to recognize, not to use.",
-    body: "Reading asks you to recognize a word. Speaking asks you to find it yourself, in a few seconds. That's when your mind goes blank.",
+    title: "School and exams trained you to recognize words, not to use them.",
+    body: "Studying for TOEIC, Eiken or TOEFL is mostly about picking the right answer from a list. Speaking asks you to find the word yourself, in a few seconds. That's when your mind goes blank.",
     stat: {
       lead: "Nearly 1 in 3",
       text: "learners in Japan say they can't think of the word when they need it.",

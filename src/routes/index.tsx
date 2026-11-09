@@ -16,13 +16,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Hikidashi teaches work English in ready-to-use phrases, then has you practice saying them. Get early access to the app.",
+          "Hikidashi teaches the work phrases you're missing, turns the words you already know into phrases, and has you practice saying them. Download the app.",
       },
-      { property: "og:title", content: "Hikidashi — The right English, ready when you need it" },
+      { property: "og:title", content: "Hikidashi — Find the right English in the meeting, not after it" },
       {
         property: "og:description",
         content:
-          "An app that teaches workplace English in phrases, then has you practice saying them out loud.",
+          "An app that teaches the workplace phrases you're missing, turns the words you know into phrases, and has you practice saying them out loud.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

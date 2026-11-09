@@ -201,7 +201,6 @@ export function Hero() {
         </Line>
         <Line delay={0.3} x={x2} className="pl-[8vw]">
           {HERO.lineTwo}
-          <span className="text-pen">.</span>
         </Line>
         <LateLine x={x3} className="text-right italic text-muted-foreground">
           {HERO.late}

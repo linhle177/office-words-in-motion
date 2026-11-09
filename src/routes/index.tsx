@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
         content:
           "Hikidashi teaches you new work phrases, then has you practice them until you can actively use them at work. Download the app.",
       },
-      { property: "og:title", content: "Hikidashi — Have your English vocabulary ready the moment you need it" },
+      { property: "og:title", content: "Hikidashi — Don't let English hold you back at work" },
       {
         property: "og:description",
         content:

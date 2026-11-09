@@ -15,7 +15,7 @@ export const HERO = {
   lineTwo: "ready the moment you need it",
   late: "Not after.",
   subhead:
-    "Hikidashi is an app that teaches the work phrases you're missing, turns the words you already know into phrases too, and has you practice saying them.",
+    "Hikidashi teaches you new work phrases, then has you practice them until you can actively use them at work.",
   cta: "Download the app",
 };
 
@@ -72,14 +72,14 @@ export const RECALL = {
 
 /* ── Screen 4 · Hikidashi ────────────────────────────────────── */
 export const METHOD = {
-  headline: "Hikidashi works on both, and fills the gaps.",
+  headline: "Hikidashi works on both.",
   note: "means “drawer.” Phrases go in ready to use, and come out when you need them.",
   /** {braces} mark the part that gets the highlighter. */
   steps: [
     {
       reason: 1,
       title: "Learn phrases, not single words.",
-      body: "New phrases for the moments you face at work, and the words you already know, rebuilt into phrases. “{Push back the deadline},” not just “deadline.”",
+      body: "New phrases for the moments you face at work, built mostly from words you already know. “{Push back the deadline},” not just “deadline.”",
     },
     {
       reason: 2,
@@ -108,7 +108,7 @@ export const PRACTICE = {
 /* ── Screen 5 · Early access ─────────────────────────────────── */
 export const CLOSING = {
   headline: ["Have the right English ", "ready", " for your next meeting."] as const,
-  body: "Learn the phrases you're missing. Turn the words you know into phrases you can say. Practice them a few minutes at a time, on your phone.",
+  body: "Learn new work phrases and practice them until you can actively use them. Just 5 minutes a day, on the train to work.",
 };
 
 export const EARLY_ACCESS = {

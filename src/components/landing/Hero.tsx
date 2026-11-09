@@ -1,12 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
 import { Button } from "@/components/ui/button";
+import { BRAND, HERO } from "./data";
+import { useEarlyAccess } from "./EarlyAccess";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** Letters lean toward the visitor's cursor and blush with the editor's pen. */
-function ProximityWord({ text }: { text: string }) {
+/**
+ * Letters lean toward the cursor — but slowly, a beat behind you.
+ * The lag is the point: the right English arrives just after you needed it.
+ */
+function LaggingWord({ text }: { text: string }) {
   const refs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
@@ -26,9 +31,10 @@ function ProximityWord({ text }: { text: string }) {
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
         const d = Math.hypot(mx - cx, my - cy);
-        const f = Math.max(0, 1 - d / 280);
+        const f = Math.max(0, 1 - d / 320);
+        const dx = ((mx - cx) / 320) * f * 0.12;
         const tilt = ((mx - cx) / Math.max(r.width, 1)) * f * -2.5;
-        el.style.transform = `translateY(${(-f * 0.14).toFixed(3)}em) rotate(${tilt.toFixed(2)}deg)`;
+        el.style.transform = `translate(${dx.toFixed(3)}em, ${(-f * 0.12).toFixed(3)}em) rotate(${tilt.toFixed(2)}deg)`;
         el.style.color =
           f > 0.05
             ? `color-mix(in oklab, var(--pen) ${Math.round(f * 100)}%, var(--foreground))`
@@ -57,7 +63,7 @@ function ProximityWord({ text }: { text: string }) {
   }, []);
 
   return (
-    <span aria-label={text}>
+    <span aria-label={text} className="italic">
       {[...text].map((ch, i) => (
         <span
           key={i}
@@ -65,7 +71,8 @@ function ProximityWord({ text }: { text: string }) {
           ref={(el) => {
             refs.current[i] = el;
           }}
-          className="inline-block transition-[transform,color] duration-500 ease-ink will-change-transform"
+          style={{ transitionDelay: `${120 + i * 45}ms` }}
+          className="inline-block transition-[transform,color] duration-[900ms] ease-ink will-change-transform"
         >
           {ch}
         </span>
@@ -101,20 +108,65 @@ function Line({
   );
 }
 
+/** The last line hesitates — a blinking caret, a pause — then turns up late. */
+function LateLine({
+  children,
+  className = "",
+  x,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  x: MotionValue<string>;
+}) {
+  const [phase, setPhase] = useState<0 | 1 | 2>(0);
+  useEffect(() => {
+    const a = setTimeout(() => setPhase(1), 1100);
+    const b = setTimeout(() => setPhase(2), 2700);
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
+  }, []);
+
+  return (
+    <motion.span style={{ x }} className={`relative block ${className}`}>
+      <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
+        <motion.span
+          className="block"
+          initial={{ y: "110%" }}
+          animate={{ y: phase === 2 ? "0%" : "110%" }}
+          transition={{ duration: 1.1, ease: EASE }}
+        >
+          {children}
+        </motion.span>
+      </span>
+      {phase === 1 && (
+        <motion.span
+          aria-hidden
+          className="absolute right-0 top-[0.12em] h-[0.78em] w-[0.05em] bg-pen"
+          animate={{ opacity: [1, 1, 0, 0] }}
+          transition={{ duration: 0.9, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
+        />
+      )}
+    </motion.span>
+  );
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const { open } = useEarlyAccess();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0vw", "-14vw"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["0vw", "12vw"]);
-  const x3 = useTransform(scrollYProgress, [0, 1], ["0vw", "-8vw"]);
+  const x1 = useTransform(scrollYProgress, [0, 1], ["0vw", "-12vw"]);
+  const x2 = useTransform(scrollYProgress, [0, 1], ["0vw", "10vw"]);
+  const x3 = useTransform(scrollYProgress, [0, 1], ["0vw", "-6vw"]);
   const fade = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col px-6 pb-10 pt-28 md:px-12 md:pt-32"
+      className="relative flex min-h-[100svh] flex-col overflow-x-clip px-6 pb-10 pt-28 md:px-12 md:pt-32"
     >
       <motion.div
         style={{ opacity: fade }}
@@ -123,44 +175,53 @@ export function Hero() {
         transition={{ duration: 1, delay: 0.1 }}
         className="flex flex-wrap items-baseline gap-x-6 gap-y-2 border-b border-border pb-4"
       >
-        <span className="font-display text-2xl italic">word·work</span>
-        <span className="font-mono text-sm text-muted-foreground">/ˈwɜːd.wɜːk/</span>
-        <span className="font-display text-lg italic text-muted-foreground">noun</span>
+        <span className="font-display text-2xl italic">hiki·dashi</span>
+        <span className="font-mono text-sm text-muted-foreground">{BRAND.ipa}</span>
+        <span className="font-display text-lg italic text-muted-foreground">{BRAND.pos}</span>
+        <span className="font-display text-xl">{BRAND.kanji}</span>
         <span className="label-mono ml-auto hidden text-muted-foreground sm:inline">
-          Entry 01 of 3,200
+          {HERO.eyebrow}
         </span>
       </motion.div>
 
-      <h1 className="mt-[5vh] font-display text-mega tracking-[-0.035em]">
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="label-mono mt-8 flex items-center gap-3 text-muted-foreground sm:hidden"
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-pen" />
+        {HERO.eyebrow}
+      </motion.p>
+
+      <h1 className="mt-[5vh] font-display text-hero tracking-[-0.035em]">
         <Line delay={0.15} x={x1}>
-          Speak the
+          {HERO.lineOne[0]}
+          <LaggingWord text={HERO.lineOne[1]} />
         </Line>
-        <Line delay={0.28} x={x2} className="pl-[9vw] italic">
-          <ProximityWord text="language" />
+        <Line delay={0.3} x={x2} className="pl-[8vw]">
+          {HERO.lineTwo}
+          <span className="text-pen">.</span>
         </Line>
-        <Line delay={0.41} x={x3} className="text-right">
-          of work<span className="text-pen">.</span>
-        </Line>
+        <LateLine x={x3} className="text-right italic text-muted-foreground">
+          {HERO.late}
+        </LateLine>
       </h1>
 
       <motion.div
         style={{ opacity: fade }}
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.9, ease: EASE }}
+        transition={{ duration: 1, delay: 1, ease: EASE }}
         className="mt-auto grid items-end gap-8 pt-16 md:grid-cols-12"
       >
-        <p className="max-w-sm text-lg leading-relaxed text-muted-foreground md:col-span-5">
-          <span className="font-mono text-sm text-foreground">1.</span> Workplace English, learned
-          five words a day — for people who already speak English and want to sound like they run
-          the meeting.
+        <p className="max-w-md text-lg leading-relaxed text-muted-foreground md:col-span-5">
+          <span className="font-mono text-sm text-foreground">1.</span> {HERO.subhead}
         </p>
-        <div className="flex flex-wrap items-center gap-3 md:col-span-5 md:col-start-8 md:justify-end">
-          <Button asChild variant="ink" size="pill">
-            <a href="#download">Start with five words</a>
-          </Button>
-          <Button asChild variant="line" size="pill">
-            <a href="#decode">See how it reads</a>
+        <div className="flex md:col-span-5 md:col-start-8 md:justify-end">
+          <Button variant="ink" size="pill" onClick={open}>
+            {HERO.cta}
+            <span aria-hidden>→</span>
           </Button>
         </div>
       </motion.div>
@@ -170,7 +231,7 @@ export function Hero() {
         style={{ opacity: fade }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
+        transition={{ duration: 1, delay: 1.4 }}
         className="label-mono pointer-events-none absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-muted-foreground lg:flex"
       >
         Scroll

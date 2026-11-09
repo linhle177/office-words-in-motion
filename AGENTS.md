@@ -31,4 +31,5 @@ use the editor.
 
 ## Project rules
 - Landing page sections live in `src/components/landing/`, with copy and word data in `data.ts`; keeps content editable in one place.
+- Every download / early-access button opens the single `EarlyAccessProvider` dialog via `useEarlyAccess()`; one signup surface until the app ships.
 - Scroll and gesture interactions use the `motion` package (`motion/react`) inside `MotionConfig reducedMotion="user"`; one animation library, respects reduced-motion.

@@ -1,29 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
 
-import { LearnedCounter, Nav, ScrollProgress } from "@/components/landing/Chrome";
+import { Nav, ScrollProgress } from "@/components/landing/Chrome";
 import { Closing } from "@/components/landing/Closing";
-import { Fields } from "@/components/landing/Fields";
-import { FlashDeck } from "@/components/landing/FlashDeck";
+import { EarlyAccessProvider } from "@/components/landing/EarlyAccess";
 import { Hero } from "@/components/landing/Hero";
-import { LearnedProvider } from "@/components/landing/learned";
-import { Manifesto } from "@/components/landing/Manifesto";
-import { MeetingScene } from "@/components/landing/MeetingScene";
-import { Quote, Stats } from "@/components/landing/Proof";
+import { Method } from "@/components/landing/Method";
+import { Paradox } from "@/components/landing/Paradox";
+import { Reasons } from "@/components/landing/Reasons";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Wordwork — Speak the language of work" },
+      { title: "Hikidashi — Work English, learned in ready-to-use phrases" },
       {
         name: "description",
         content:
-          "Workplace English vocabulary, five words a day. Learn the phrases your meetings, emails and Slack threads actually use.",
+          "Hikidashi teaches work English in ready-to-use phrases, then has you practice saying them. Get early access to the app.",
       },
-      { property: "og:title", content: "Wordwork — Speak the language of work" },
+      { property: "og:title", content: "Hikidashi — The right English, ready when you need it" },
       {
         property: "og:description",
-        content: "Workplace English vocabulary, five words a day. Sound like you run the meeting.",
+        content:
+          "An app that teaches workplace English in phrases, then has you practice saying them out loud.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,21 +34,17 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <MotionConfig reducedMotion="user">
-      <LearnedProvider>
+      <EarlyAccessProvider>
         <ScrollProgress />
         <Nav />
-        <main>
+        <main className="overflow-x-clip">
           <Hero />
-          <MeetingScene />
-          <Manifesto />
-          <FlashDeck />
-          <Fields />
-          <Stats />
-          <Quote />
+          <Paradox />
+          <Reasons />
+          <Method />
           <Closing />
         </main>
-        <LearnedCounter />
-      </LearnedProvider>
+      </EarlyAccessProvider>
     </MotionConfig>
   );
 }

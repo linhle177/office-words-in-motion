@@ -1,131 +1,120 @@
-export type Jargon = {
-  word: string;
-  ipa: string;
-  pos: string;
-  plain: string;
+/** All landing copy for Hikidashi. Edit words here; components only arrange them. */
+
+export const BRAND = {
+  name: "Hikidashi",
+  kanji: "引き出し",
+  ipa: "/hi.ki.da.ɕi/",
+  pos: "noun",
 };
 
-/** The stand-up sentence, decoded one term at a time. Numbers point into JARGON. */
-export const JARGON: Jargon[] = [
-  {
-    word: "circle back",
-    ipa: "/ˈsɜː.kəl bæk/",
-    pos: "phrasal verb",
-    plain: "come back to this topic later",
-  },
-  {
-    word: "deliverables",
-    ipa: "/dɪˈlɪv.ər.ə.bəlz/",
-    pos: "noun, plural",
-    plain: "the finished work you promised to hand over",
-  },
-  {
-    word: "loop in",
-    ipa: "/luːp ɪn/",
-    pos: "phrasal verb",
-    plain: "add someone to the conversation",
-  },
-  {
-    word: "stakeholders",
-    ipa: "/ˈsteɪkˌhəʊl.dəz/",
-    pos: "noun, plural",
-    plain: "everyone who cares how this turns out",
-  },
-  {
-    word: "EOD",
-    ipa: "/ˌiː.əʊˈdiː/",
-    pos: "abbreviation",
-    plain: "by the end of the working day",
-  },
-];
-
-export const SENTENCE: (string | number)[] = [
-  "Can we ",
-  0,
-  " on the ",
-  1,
-  " and ",
-  2,
-  " the ",
-  3,
-  " before ",
-  4,
-  "?",
-];
-
-export const TRANSLATION =
-  "Can we talk about the work again later — after we've added everyone who cares — before the day ends?";
-
-export type FlashCard = {
-  no: string;
-  field: string;
-  word: string;
-  ipa: string;
-  pos: string;
-  definition: string;
-  example: [string, string, string];
+/* ── Screen 1 · Hero ─────────────────────────────────────────── */
+export const HERO = {
+  eyebrow: "Workplace English vocabulary, learned in phrases",
+  /** Line one is split so "English" can react to the cursor. */
+  lineOne: ["The right ", "English"] as const,
+  lineTwo: "comes to you",
+  late: "Just after you needed it.",
+  subhead:
+    "Hikidashi is an app that teaches work English in ready-to-use phrases, then has you practice saying them.",
+  cta: "Get early access to the app",
 };
 
-export const CARDS: FlashCard[] = [
-  {
-    no: "014",
-    field: "Planning",
-    word: "bandwidth",
-    ipa: "/ˈbænd.wɪdθ/",
-    pos: "noun",
-    definition: "The time and energy you have left to take on more work.",
-    example: ["I don't have the ", "bandwidth", " for this until after the launch."],
+/* ── Screen 2 · The paradox ──────────────────────────────────── */
+export const PARADOX = {
+  // 3,000 is a working assumption — confirm before launch.
+  words: { value: 3000, caption: "English words taught in Japanese schools." },
+  speak: {
+    value: 19.7,
+    caption: "of English learners in Japan would say “I can speak English.”",
+    source: "IIBC, 2026",
   },
-  {
-    no: "027",
-    field: "Negotiation",
-    word: "push back",
-    ipa: "/pʊʃ bæk/",
-    pos: "phrasal verb",
-    definition: "To disagree politely and ask for a different plan.",
-    example: ["I'd like to ", "push back", " on the Friday deadline."],
+  footnote: {
+    figure: "61%",
+    text: "of office workers who want better English say it has already caused them trouble at work.",
+    source: "ECC, 2026",
   },
-  {
-    no: "041",
-    field: "Meetings",
-    word: "action item",
-    ipa: "/ˈæk.ʃən ˌaɪ.təm/",
-    pos: "noun",
-    definition: "A task someone agrees to do after the meeting ends.",
-    example: ["Let's capture that as an ", "action item", " for Tom."],
-  },
-  {
-    no: "058",
-    field: "Estimates",
-    word: "ballpark",
-    ipa: "/ˈbɔːl.pɑːk/",
-    pos: "adjective",
-    definition: "Rough, but close enough to make a decision with.",
-    example: ["Can you give me a ", "ballpark", " figure by Monday?"],
-  },
-  {
-    no: "063",
-    field: "Strategy",
-    word: "align",
-    ipa: "/əˈlaɪn/",
-    pos: "verb",
-    definition: "To agree together on the same goal or direction.",
-    example: ["We need to ", "align", " on priorities before the offsite."],
-  },
-];
+};
 
-export const FIELDS = [
-  { name: "Finance", count: "1,240", samples: ["accrual", "runway", "write-off"] },
-  { name: "Engineering", count: "980", samples: ["ship", "tech debt", "rollback"] },
-  { name: "Marketing", count: "1,105", samples: ["funnel", "positioning", "churn"] },
-  { name: "Healthcare", count: "860", samples: ["triage", "handover", "discharge"] },
-  { name: "Sales", count: "920", samples: ["pipeline", "close", "objection"] },
-  { name: "Legal", count: "740", samples: ["liability", "clause", "redline"] },
-];
+/* ── Screen 3 · Two reasons ──────────────────────────────────── */
+export const REASONS = {
+  headlineA: "The words are there.",
+  headlineB: ["Two things keep them ", "stuck", "."] as const,
+  one: {
+    title: "You learned them one at a time.",
+    // "about half" is a working assumption — confirm before launch.
+    body: "But about half of everyday English comes in ready-made phrases. Fluent speakers pull out {“push back the deadline”} in one go. You're assembling it word by word, while everyone waits.",
+  },
+  two: {
+    title: "You learned them to recognize, not to use.",
+    body: "Reading asks you to recognize a word. Speaking asks you to find it yourself, in a few seconds. That's when your mind goes blank.",
+    stat: {
+      lead: "Nearly 1 in 3",
+      text: "learners in Japan say they can't think of the word when they need it.",
+      source: "IIBC, 2026",
+    },
+    epi: { label: "Japan, EF EPI 2025", reading: 454, speaking: 393 },
+  },
+};
 
-/** Manifesto copy. {term|definition} becomes a hover-to-define word. */
-export const MANIFESTO =
-  "Textbooks taught you how to order a coffee. Your job asks you to {negotiate|to discuss until both sides agree} scope, {flag|to point out a problem early} a risk, and {pivot|to change direction quickly} without losing the room. Wordwork teaches the words in between — one meeting, one email, one Monday at a time.";
+/** The phrase both demos in Screen 3 are built around. */
+export const PHRASE = ["push", "back", "the", "deadline"];
 
-/** Total words a visitor can "learn" while reading the page. */
-export const TOTAL_WORDS = JARGON.length + CARDS.length;
+/** Recall demo: the sentence the visitor tries to finish under time pressure. */
+export const RECALL = {
+  before: ["We", "need", "to"],
+  missing: "push back",
+  after: ["the", "deadline."],
+  seconds: 3,
+  blank: "That's when your mind goes blank.",
+  hold: "Press and hold to answer out loud",
+  holding: "Keep holding… find the words",
+};
+
+/* ── Screen 4 · Hikidashi ────────────────────────────────────── */
+export const METHOD = {
+  headline: "Hikidashi works on both.",
+  note: "means “drawer.” Phrases go in ready to use, and come out when you need them.",
+  /** {braces} mark the part that gets the highlighter. */
+  steps: [
+    {
+      reason: 1,
+      title: "Learn phrases, not single words.",
+      body: "“{Push back the deadline},” not just “deadline.”",
+    },
+    {
+      reason: 2,
+      title: "Practice finding them yourself.",
+      body: "A work scene with one line missing. Type it or say it out loud.",
+    },
+    {
+      reason: 2,
+      title: "Review each one right before you'd forget it.",
+      body: "",
+    },
+  ],
+};
+
+/** The practice card visual: a meeting, the manager's line, your missing reply. */
+export const PRACTICE = {
+  tag: "Practice · Scene 14",
+  scene: "Weekly sync · Tue 10:00",
+  speaker: "Your manager",
+  line: "The client added two more screens. Can we still launch on Friday?",
+  hint: "Ask for more time — in one phrase.",
+  answer: ["Honestly, we may need to ", "push back the deadline", " to Monday."] as const,
+  schedule: ["Today", "2 days", "6 days", "2 weeks", "1 month"],
+};
+
+/* ── Screen 5 · Early access ─────────────────────────────────── */
+export const CLOSING = {
+  headline: ["Have the right English ", "ready", " while you still need it."] as const,
+  body: "Hikidashi isn't out yet. Get early access and we'll email you once, on launch day.",
+};
+
+export const EARLY_ACCESS = {
+  headline: "Hikidashi isn't out yet.",
+  body: "We're building it now. Leave your email and we'll send one message when it launches.",
+  placeholder: "you@company.com",
+  cta: "Notify me",
+  done: "You're on the list. One email, on launch day.",
+};

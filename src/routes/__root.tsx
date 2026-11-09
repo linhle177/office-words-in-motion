@@ -78,8 +78,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Wordwork" },
-      { name: "description", content: "Workplace English vocabulary, five words a day." },
+      { title: "Hikidashi" },
+      { name: "description", content: "Workplace English, learned in ready-to-use phrases." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -89,6 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@300..600&family=Instrument+Serif:ital@0;1&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP&text=%E5%BC%95%E3%81%8D%E5%87%BA%E3%81%97&display=swap",
       },
       {
         rel: "stylesheet",

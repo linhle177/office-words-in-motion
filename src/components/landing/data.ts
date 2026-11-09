@@ -10,9 +10,9 @@ export const BRAND = {
 /* ── Screen 1 · Hero ─────────────────────────────────────────── */
 export const HERO = {
   eyebrow: "Workplace English vocabulary, learned in phrases",
-  /** Line one is split so "English" can react to the cursor. */
-  lineOne: ["Find the right ", "English"] as const,
-  lineTwo: "the moment you need it",
+  /** Line one is split so "vocabulary" can react to the cursor. */
+  lineOne: ["Have your English ", "vocabulary"] as const,
+  lineTwo: "ready the moment you need it",
   late: "Not after.",
   subhead:
     "Hikidashi is an app that teaches the work phrases you're missing, turns the words you already know into phrases too, and has you practice saying them.",

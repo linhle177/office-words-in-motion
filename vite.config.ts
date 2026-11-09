@@ -15,6 +15,7 @@ export default defineConfig({
   vite: {
     // Pre-bundle the animation library at startup so it never triggers a mid-session
     // dependency re-optimization (which can load two copies of React and blank the page).
-    optimizeDeps: { include: ["motion/react"] },
+    // Every third-party package the landing page imports belongs in this list.
+    optimizeDeps: { include: ["motion/react", "@radix-ui/react-dialog", "lucide-react"] },
   },
 });

@@ -11,12 +11,12 @@ export const BRAND = {
 export const HERO = {
   eyebrow: "Workplace English vocabulary, learned in phrases",
   /** Line one is split so "English" can react to the cursor. */
-  lineOne: ["The right ", "English"] as const,
-  lineTwo: "comes to you",
-  late: "Just after you needed it.",
+  lineOne: ["Find the right ", "English"] as const,
+  lineTwo: "in the meeting",
+  late: "Not after it.",
   subhead:
-    "Hikidashi is an app that teaches work English in ready-to-use phrases, then has you practice saying them.",
-  cta: "Get early access to the app",
+    "Hikidashi is an app that teaches the work phrases you're missing, turns the words you already know into phrases too, and has you practice saying them.",
+  cta: "Download the app",
 };
 
 /* ── Screen 2 · The paradox ──────────────────────────────────── */
@@ -37,7 +37,7 @@ export const PARADOX = {
 
 /* ── Screen 3 · Two reasons ──────────────────────────────────── */
 export const REASONS = {
-  headlineA: "The words are there.",
+  headlineA: "Most of the words are there.",
   headlineB: ["Two things keep them ", "stuck", "."] as const,
   one: {
     title: "You learned them one at a time.",
@@ -72,14 +72,14 @@ export const RECALL = {
 
 /* ── Screen 4 · Hikidashi ────────────────────────────────────── */
 export const METHOD = {
-  headline: "Hikidashi works on both.",
+  headline: "Hikidashi works on both, and fills the gaps.",
   note: "means “drawer.” Phrases go in ready to use, and come out when you need them.",
   /** {braces} mark the part that gets the highlighter. */
   steps: [
     {
       reason: 1,
       title: "Learn phrases, not single words.",
-      body: "“{Push back the deadline},” not just “deadline.”",
+      body: "New phrases for the moments you face at work, and the words you already know, rebuilt into phrases. “{Push back the deadline},” not just “deadline.”",
     },
     {
       reason: 2,
@@ -107,8 +107,8 @@ export const PRACTICE = {
 
 /* ── Screen 5 · Early access ─────────────────────────────────── */
 export const CLOSING = {
-  headline: ["Have the right English ", "ready", " while you still need it."] as const,
-  body: "Hikidashi isn't out yet. Get early access and we'll email you once, on launch day.",
+  headline: ["Have the right English ", "ready", " for your next meeting."] as const,
+  body: "Learn the phrases you're missing. Turn the words you know into phrases you can say. Practice them a few minutes at a time, on your phone.",
 };
 
 export const EARLY_ACCESS = {

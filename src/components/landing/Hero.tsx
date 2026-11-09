@@ -9,7 +9,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
  * Letters lean toward the cursor — but slowly, a beat behind you.
- * The lag is the point: the right English arrives just after you needed it.
+ * The lag is the point: today, the right English arrives after the meeting.
  */
 function LaggingWord({ text }: { text: string }) {
   const refs = useRef<(HTMLSpanElement | null)[]>([]);

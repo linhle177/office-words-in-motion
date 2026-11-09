@@ -7,7 +7,7 @@ import { useEarlyAccess } from "./EarlyAccess";
 
 const LINKS = [
   { href: "#paradox", label: "The paradox" },
-  { href: "#reasons", label: "Why it sticks" },
+  { href: "#reasons", label: "Why words get stuck" },
   { href: "#method", label: "How it works" },
 ];
 
@@ -49,7 +49,7 @@ export function Nav() {
           ))}
         </nav>
         <Button variant="ink" size="pill-sm" onClick={open}>
-          Get early access
+          Download the app
         </Button>
       </div>
     </motion.header>

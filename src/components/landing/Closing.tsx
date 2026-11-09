@@ -73,7 +73,7 @@ export function Closing() {
   return (
     <section id="download" className="px-6 pt-[22vh] md:px-12">
       <div className="grid gap-12 md:grid-cols-12">
-        <p className="label-mono md:col-span-3">§ 04 — Early access</p>
+        <p className="label-mono md:col-span-3">§ 04 — Download</p>
         <div className="md:col-span-9">
           <motion.h2
             ref={headRef}

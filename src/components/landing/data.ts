@@ -10,12 +10,12 @@ export const BRAND = {
 /* ── Screen 1 · Hero ─────────────────────────────────────────── */
 export const HERO = {
   eyebrow: "Workplace English vocabulary, learned in phrases",
-  /** Line one is split so "vocabulary" can react to the cursor. */
-  lineOne: ["Have your English ", "vocabulary"] as const,
-  lineTwo: "ready the moment you need it",
-  late: "Not after.",
+  /** Line one is split so "English" can react to the cursor. */
+  lineOne: ["Don't let ", "English"] as const,
+  lineTwo: "hold you back",
+  late: "at work.",
   subhead:
-    "Hikidashi teaches you new work phrases, then has you practice them until you can actively use them at work.",
+    "Hikidashi teaches you new work phrases, then has you practice them until you can actively use them.",
   cta: "Download the app",
 };
 

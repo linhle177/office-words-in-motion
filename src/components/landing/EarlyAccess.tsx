@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { BRAND, EARLY_ACCESS } from "./data";
+import { useCopy } from "./copy";
 
 const Ctx = createContext<{ open: () => void }>({ open: () => {} });
 
@@ -16,6 +16,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /** One "isn't out yet" sheet that every download / early-access button opens. */
 export function EarlyAccessProvider({ children }: { children: ReactNode }) {
+  const { brand: BRAND, earlyAccess: EARLY_ACCESS, ui } = useCopy();
   const [isOpen, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
@@ -42,14 +43,14 @@ export function EarlyAccessProvider({ children }: { children: ReactNode }) {
           <DialogPrimitive.Content className="paper-card fixed left-1/2 top-1/2 z-[80] w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-lg p-8 duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-4 md:p-12">
             <DialogPrimitive.Close className="absolute right-5 top-5 cursor-pointer rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
               <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{ui.earlyAccess.close}</span>
             </DialogPrimitive.Close>
 
             <p className="label-mono flex items-center gap-3 text-muted-foreground">
               <span className="font-display text-base normal-case tracking-normal text-foreground">
                 {BRAND.kanji}
               </span>
-              Early access
+              {ui.earlyAccess.label}
             </p>
             <DialogPrimitive.Title className="mt-6 font-display text-5xl leading-[0.95] tracking-[-0.025em] md:text-6xl">
               {EARLY_ACCESS.headline}
@@ -79,7 +80,7 @@ export function EarlyAccessProvider({ children }: { children: ReactNode }) {
                   className="mt-10"
                 >
                   <label htmlFor="early-email" className="sr-only">
-                    Email
+                    {ui.earlyAccess.email}
                   </label>
                   <div
                     className={`flex flex-col gap-3 border-b pb-3 transition-colors sm:flex-row sm:items-end ${
@@ -106,7 +107,12 @@ export function EarlyAccessProvider({ children }: { children: ReactNode }) {
                   </div>
                   {error && (
                     <p className="label-mono mt-3 text-pen" role="alert">
-                      Please check that email address
+                      {ui.earlyAccess.error}
+                    </p>
+                  )}
+                  {EARLY_ACCESS.consent && (
+                    <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+                      {EARLY_ACCESS.consent}
                     </p>
                   )}
                 </motion.form>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 
-import { PHRASE, REASONS, RECALL } from "./data";
+import { useCopy } from "./copy";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -38,6 +38,7 @@ function Stuck({ children }: { children: React.ReactNode }) {
 
 /** Reason 1 — scroll drives the clock: word by word vs. one phrase. */
 function AssemblyDemo() {
+  const { phrase: PHRASE, ui } = useCopy();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.35"] });
   const [p, setP] = useState(0);
@@ -54,7 +55,7 @@ function AssemblyDemo() {
   return (
     <div ref={ref} className="paper-card rounded-lg p-6 md:p-8">
       <div className="flex items-baseline justify-between">
-        <span className="label-mono text-muted-foreground">Word by word</span>
+        <span className="label-mono text-muted-foreground">{ui.assembly.slow}</span>
         <span className={`font-mono text-sm tabular-nums ${assembling ? "text-pen" : ""}`}>
           {slowSec.toFixed(1)}s
         </span>
@@ -82,7 +83,7 @@ function AssemblyDemo() {
       <div className="hairline my-6" />
 
       <div className="flex items-baseline justify-between">
-        <span className="label-mono text-muted-foreground">As a phrase</span>
+        <span className="label-mono text-muted-foreground">{ui.assembly.fast}</span>
         <span className="font-mono text-sm tabular-nums">{phraseIn ? "0.4" : "0.0"}s</span>
       </div>
       <p className="mt-4 min-h-[3.25rem] font-display text-4xl md:text-5xl">
@@ -101,6 +102,7 @@ function AssemblyDemo() {
 
 /** Reason 2 — press and hold to "speak". As seconds pass, the sentence goes blank. */
 function BlankDemo() {
+  const { recall: RECALL, ui } = useCopy();
   const [holding, setHolding] = useState(false);
   const [t, setT] = useState(0);
   const total = RECALL.seconds * 1000;
@@ -131,8 +133,8 @@ function BlankDemo() {
   return (
     <div className="paper-card rounded-lg p-6 md:p-8">
       <div className="flex items-baseline justify-between">
-        <span className="label-mono text-muted-foreground">Reading</span>
-        <span className="label-mono">Recognized ✓</span>
+        <span className="label-mono text-muted-foreground">{ui.recall.reading}</span>
+        <span className="label-mono">{ui.recall.recognized}</span>
       </div>
       <p className="mt-4 font-display text-3xl md:text-4xl">
         {RECALL.before.join(" ")}{" "}
@@ -143,12 +145,15 @@ function BlankDemo() {
       <div className="hairline my-6" />
 
       <div className="flex items-baseline justify-between">
-        <span className="label-mono text-muted-foreground">Speaking</span>
+        <span className="label-mono text-muted-foreground">{ui.recall.speaking}</span>
         <span className={`font-mono text-sm tabular-nums ${holding ? "text-pen" : ""}`}>
           {holding ? (blank ? "0s" : `${left}s`) : `${RECALL.seconds}s`}
         </span>
       </div>
-      <p className="relative mt-4 min-h-[2.5em] font-display text-3xl md:text-4xl" aria-live="polite">
+      <p
+        className="relative mt-4 min-h-[2.5em] font-display text-3xl md:text-4xl"
+        aria-live="polite"
+      >
         {words.map((w, i) => {
           const fadeAt = (i + 0.5) / (words.length + 1);
           const gone = holding && t > fadeAt;
@@ -215,9 +220,7 @@ function BlankDemo() {
           className="absolute inset-y-0 left-0 bg-pen/15"
           style={{ width: `${t * 100}%` }}
         />
-        <span className="relative">
-          {holding ? RECALL.holding : RECALL.hold}
-        </span>
+        <span className="relative">{holding ? RECALL.holding : RECALL.hold}</span>
       </button>
     </div>
   );
@@ -244,6 +247,7 @@ function Bar({ label, value, max }: { label: string; value: number; max: number 
 }
 
 function ReasonText({ no, title, body }: { no: string; title: string; body: string }) {
+  const { ui } = useCopy();
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -251,7 +255,9 @@ function ReasonText({ no, title, body }: { no: string; title: string; body: stri
       viewport={{ once: true, margin: "-15% 0px" }}
       transition={{ duration: 0.9, ease: EASE }}
     >
-      <p className="label-mono text-pen">Reason {no}</p>
+      <p className="label-mono text-pen">
+        {ui.reason} {no}
+      </p>
       <h3 className="mt-6 font-display text-statement tracking-[-0.015em]">{title}</h3>
       <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
         <Marked text={body} />
@@ -261,11 +267,12 @@ function ReasonText({ no, title, body }: { no: string; title: string; body: stri
 }
 
 export function Reasons() {
+  const { reasons: REASONS, ui, lang } = useCopy();
   const { one, two } = REASONS;
   return (
     <section id="reasons" className="px-6 py-[18vh] md:px-12">
       <div className="grid gap-10 md:grid-cols-12">
-        <p className="label-mono md:col-span-3">§ 02 — Two reasons</p>
+        <p className="label-mono md:col-span-3">{ui.sections.reasons}</p>
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -317,14 +324,16 @@ export function Reasons() {
             <span className="h-3 w-10 rounded-[2px] border border-dashed border-pen" />
           </div>
           <p className="mt-6 max-w-lg text-xl leading-snug">
-            <span className="font-display text-4xl">{two.stat.lead}</span> {two.stat.text}
+            <span className="font-display text-4xl">{two.stat.lead}</span>
+            {lang === "en" ? " " : ""}
+            {two.stat.text}
           </p>
           <p className="label-mono mt-4 text-muted-foreground">{two.stat.source}</p>
         </motion.div>
         <div className="space-y-6 md:col-span-5 md:col-start-8">
           <p className="label-mono">{two.epi.label}</p>
-          <Bar label="Reading" value={two.epi.reading} max={600} />
-          <Bar label="Speaking" value={two.epi.speaking} max={600} />
+          <Bar label={ui.epi.reading} value={two.epi.reading} max={600} />
+          <Bar label={ui.epi.speaking} value={two.epi.speaking} max={600} />
         </div>
       </div>
     </section>

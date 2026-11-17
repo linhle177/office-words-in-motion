@@ -118,3 +118,55 @@ export const EARLY_ACCESS = {
   cta: "Notify me",
   done: "You're on the list. One email, on launch day.",
 };
+
+/* ── Interface labels (nav, demo cards, buttons, footer) ─────── */
+export const NAV = {
+  links: [
+    { href: "#paradox", label: "The paradox" },
+    { href: "#reasons", label: "Why words get stuck" },
+    { href: "#method", label: "How it works" },
+  ],
+  cta: "Download the app",
+};
+
+export const UI = {
+  scroll: "Scroll",
+  sections: {
+    paradox: "§ 01 — The paradox",
+    reasons: "§ 02 — Two reasons",
+    method: "§ 03 — Hikidashi",
+    closing: "§ 04 — Download",
+  },
+  reason: "Reason",
+  assembly: { slow: "Word by word", fast: "As a phrase" },
+  recall: { reading: "Reading", recognized: "Recognized ✓", speaking: "Speaking" },
+  epi: { reading: "Reading", speaking: "Speaking" },
+  practice: {
+    you: "You",
+    placeholder: "Your line — type it or say it",
+    check: "Check",
+    say: "Say it",
+    listening: "Listening… tap to stop",
+    showMe: "Show me",
+    tryAgain: "↺ Try again",
+    hint: "Hint",
+    review: "Review",
+    verdict: {
+      exact: "That's the phrase.",
+      close: "Close — a fluent speaker would say",
+      miss: "Here's the line",
+      reveal: "Here's the line",
+    },
+  },
+  stores: {
+    apple: { small: "Download on the", big: "App Store", label: "Download on the App Store" },
+    google: { small: "Get it on", big: "Google Play", label: "Get it on Google Play" },
+  },
+  footer: { privacy: "Privacy", terms: "Terms", top: "Back to top ↑" },
+  earlyAccess: {
+    label: "Early access",
+    close: "Close",
+    email: "Email",
+    error: "Please check that email address",
+  },
+};

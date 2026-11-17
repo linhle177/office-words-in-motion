@@ -7,7 +7,7 @@ import {
   type MotionValue,
 } from "motion/react";
 
-import { PARADOX } from "./data";
+import { useCopy } from "./copy";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -24,10 +24,7 @@ function LearnerGrid({ filled }: { filled: number }) {
   const whole = Math.floor(filled);
   const part = filled - whole;
   return (
-    <div
-      aria-hidden
-      className="grid w-full max-w-[34rem] grid-cols-20 gap-[5px]"
-    >
+    <div aria-hidden className="grid w-full max-w-[34rem] grid-cols-20 gap-[5px]">
       {Array.from({ length: 100 }, (_, i) => {
         const fill = i < whole ? 1 : i === whole ? part : 0;
         return (
@@ -44,6 +41,7 @@ function LearnerGrid({ filled }: { filled: number }) {
 }
 
 export function Paradox() {
+  const { paradox: PARADOX, ui } = useCopy();
   const oneRef = useRef<HTMLDivElement>(null);
   const twoRef = useRef<HTMLDivElement>(null);
   const gapRef = useRef<HTMLDivElement>(null);
@@ -58,18 +56,24 @@ export function Paradox() {
 
   return (
     <section id="paradox" className="px-6 py-[20vh] md:px-12">
-      <p className="label-mono">§ 01 — The paradox</p>
+      <p className="label-mono">{ui.sections.paradox}</p>
 
       <div ref={oneRef} className="mt-[10vh] grid items-end gap-8 md:grid-cols-12">
         <p
           className="font-display text-mega tabular-nums tracking-[-0.04em] md:col-span-8"
-          aria-label={PARADOX.words.value.toLocaleString("en-US")}
+          aria-label={`${PARADOX.words.value.toLocaleString("en-US")}${PARADOX.words.unit ?? ""}`}
         >
           {Math.round(words).toLocaleString("en-US")}
+          {PARADOX.words.unit && (
+            <span className="ml-[0.06em] text-[0.38em] tracking-normal">{PARADOX.words.unit}</span>
+          )}
         </p>
-        <p className="max-w-xs pb-[1.2vw] text-xl leading-snug md:col-span-4">
-          {PARADOX.words.caption}
-        </p>
+        <div className="max-w-xs pb-[1.2vw] md:col-span-4">
+          <p className="text-xl leading-snug">{PARADOX.words.caption}</p>
+          {PARADOX.words.source && (
+            <p className="label-mono mt-4 text-muted-foreground">{PARADOX.words.source}</p>
+          )}
+        </div>
       </div>
 
       <div ref={gapRef} className="flex h-[34vh] justify-center md:justify-start md:pl-[33%]">

@@ -2,19 +2,14 @@ import { useState } from "react";
 import { motion, useMotionValueEvent, useScroll, useSpring } from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { BRAND } from "./data";
+import { useCopy } from "./copy";
 import { useEarlyAccess } from "./EarlyAccess";
-
-const LINKS = [
-  { href: "#paradox", label: "The paradox" },
-  { href: "#reasons", label: "Why words get stuck" },
-  { href: "#method", label: "How it works" },
-];
 
 /** Header that steps out of the way while reading and returns when you scroll up. */
 export function Nav() {
   const { scrollY } = useScroll();
   const { open } = useEarlyAccess();
+  const c = useCopy();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -34,11 +29,11 @@ export function Nav() {
     >
       <div className="flex items-center justify-between px-6 py-5 md:px-12">
         <a href="#top" className="font-display text-2xl tracking-tight">
-          {BRAND.name}
+          {c.brand.name}
           <span className="text-pen">.</span>
         </a>
         <nav className="hidden items-center gap-10 md:flex">
-          {LINKS.map((l) => (
+          {c.nav.links.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -49,7 +44,7 @@ export function Nav() {
           ))}
         </nav>
         <Button variant="ink" size="pill-sm" onClick={open}>
-          Download the app
+          {c.nav.cta}
         </Button>
       </div>
     </motion.header>

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform, type MotionValue } from "motion/react";
 
-import { BRAND, CLOSING } from "./data";
+import { useCopy } from "./copy";
 import { useEarlyAccess } from "./EarlyAccess";
 
 const WORDMARK = "hikidashi";
@@ -30,7 +30,10 @@ function AppleLogo() {
 function PlayLogo() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden className="h-7 w-7">
-      <path fill="#00D7FE" d="M3.6 1.8 13.4 12 3.6 22.2c-.37-.2-.6-.62-.6-1.13V2.93c0-.5.23-.93.6-1.13z" />
+      <path
+        fill="#00D7FE"
+        d="M3.6 1.8 13.4 12 3.6 22.2c-.37-.2-.6-.62-.6-1.13V2.93c0-.5.23-.93.6-1.13z"
+      />
       <path fill="#00F076" d="M16.8 8.6 13.4 12 3.6 1.8c.4-.22.92-.22 1.4.04l11.8 6.76z" />
       <path fill="#FF3A44" d="M16.8 15.4 5 22.16c-.48.26-1 .26-1.4.04L13.4 12l3.4 3.4z" />
       <path fill="#FFD500" d="M20.4 10.95c.8.46.8 1.64 0 2.1l-3.6 2.35L13.4 12l3.4-3.4 3.6 2.35z" />
@@ -39,7 +42,9 @@ function PlayLogo() {
 }
 
 function StoreBadge({ store, onClick }: { store: "apple" | "google"; onClick: () => void }) {
+  const { ui } = useCopy();
   const apple = store === "apple";
+  const t = ui.stores[store];
   return (
     <motion.button
       type="button"
@@ -47,16 +52,18 @@ function StoreBadge({ store, onClick }: { store: "apple" | "google"; onClick: ()
       whileHover={{ y: -3 }}
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      aria-label={apple ? "Download on the App Store" : "Get it on Google Play"}
+      aria-label={t.label}
       className="flex h-[3.75rem] cursor-pointer items-center gap-3 rounded-xl border border-muted-foreground/50 bg-foreground pl-4 pr-6 text-left text-background"
     >
       {apple ? <AppleLogo /> : <PlayLogo />}
       <span className="flex flex-col">
-        <span className={`leading-none ${apple ? "text-[0.7rem]" : "text-[0.625rem] uppercase tracking-[0.06em]"}`}>
-          {apple ? "Download on the" : "Get it on"}
+        <span
+          className={`leading-none ${apple ? "text-[0.7rem]" : "text-[0.625rem] uppercase tracking-[0.06em]"}`}
+        >
+          {t.small}
         </span>
         <span className="mt-1 text-[1.45rem] font-medium leading-none tracking-[-0.02em]">
-          {apple ? "App Store" : "Google Play"}
+          {t.big}
         </span>
       </span>
     </motion.button>
@@ -68,12 +75,13 @@ export function Closing() {
   const headRef = useRef<HTMLHeadingElement>(null);
   const inView = useInView(headRef, { once: true, margin: "-25% 0px" });
   const { open } = useEarlyAccess();
+  const { brand: BRAND, closing: CLOSING, ui } = useCopy();
   const { scrollYProgress } = useScroll({ target: footRef, offset: ["start end", "end end"] });
 
   return (
     <section id="download" className="px-6 pt-[22vh] md:px-12">
       <div className="grid gap-12 md:grid-cols-12">
-        <p className="label-mono md:col-span-3">§ 04 — Download</p>
+        <p className="label-mono md:col-span-3">{ui.sections.closing}</p>
         <div className="md:col-span-9">
           <motion.h2
             ref={headRef}
@@ -116,13 +124,13 @@ export function Closing() {
           <span className="font-display text-lg text-muted-foreground">{BRAND.kanji}</span>
           <nav className="flex gap-8">
             <a href="#top" className="label-mono text-muted-foreground hover:text-foreground">
-              Privacy
+              {ui.footer.privacy}
             </a>
             <a href="#top" className="label-mono text-muted-foreground hover:text-foreground">
-              Terms
+              {ui.footer.terms}
             </a>
             <a href="#top" className="label-mono text-muted-foreground hover:text-foreground">
-              Back to top ↑
+              {ui.footer.top}
             </a>
           </nav>
         </footer>

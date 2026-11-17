@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Mic } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { BRAND, METHOD, PRACTICE } from "./data";
+import { useCopy } from "./copy";
 import { checkAnswer, type Verdict } from "./practice";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -32,13 +32,6 @@ function getRecognitionCtor(): (new () => Recognition) | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
-
-const VERDICT_LABEL: Record<Verdict, string> = {
-  exact: "That's the phrase.",
-  close: "Close — a fluent speaker would say",
-  miss: "Here's the line",
-  reveal: "Here's the line",
-};
 
 function Zone({ on, n, children }: { on: boolean; n: number; children: React.ReactNode }) {
   return (
@@ -98,6 +91,8 @@ function ForgettingCurve() {
 
 /** The practice card: a meeting, the manager's line, and your missing reply. */
 function PracticeCard({ focus }: { focus: number }) {
+  const { practice: PRACTICE, ui } = useCopy();
+  const L = ui.practice;
   const [value, setValue] = useState("");
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [listening, setListening] = useState(false);
@@ -124,7 +119,9 @@ function PracticeCard({ focus }: { focus: number }) {
     rec.maxAlternatives = 1;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rec.onresult = (e: any) => {
-      const results = Array.from(e.results as ArrayLike<{ 0: { transcript: string }; isFinal: boolean }>);
+      const results = Array.from(
+        e.results as ArrayLike<{ 0: { transcript: string }; isFinal: boolean }>,
+      );
       const text = results.map((r) => r[0].transcript).join(" ");
       setValue(text);
       if (results[results.length - 1]?.isFinal) grade(text);
@@ -157,6 +154,9 @@ function PracticeCard({ focus }: { focus: number }) {
           <p className="mt-3 font-display text-3xl leading-[1.08] tracking-[-0.01em] md:text-[2.15rem]">
             “{PRACTICE.line}”
           </p>
+          {PRACTICE.lineGloss && (
+            <p className="mt-2 text-sm text-muted-foreground">{PRACTICE.lineGloss}</p>
+          )}
         </div>
 
         <Zone on={focus === 1} n={2}>
@@ -167,7 +167,7 @@ function PracticeCard({ focus }: { focus: number }) {
             }}
           >
             <label htmlFor="practice-line" className="label-mono text-muted-foreground">
-              You
+              {L.you}
             </label>
             <input
               id="practice-line"
@@ -176,13 +176,13 @@ function PracticeCard({ focus }: { focus: number }) {
                 setValue(e.target.value);
                 if (verdict) setVerdict(null);
               }}
-              placeholder="Your line — type it or say it"
+              placeholder={L.placeholder}
               autoComplete="off"
               className="mt-2 w-full border-b-2 border-dashed border-foreground bg-transparent pb-2 font-display text-2xl italic outline-none placeholder:text-faint focus:border-solid md:text-3xl"
             />
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <Button type="submit" variant="ink" size="pill-sm" disabled={!value.trim()}>
-                Check
+                {L.check}
               </Button>
               {canSpeak && (
                 <Button
@@ -194,7 +194,7 @@ function PracticeCard({ focus }: { focus: number }) {
                   className={listening ? "border-pen text-pen" : ""}
                 >
                   <Mic />
-                  {listening ? "Listening… tap to stop" : "Say it"}
+                  {listening ? L.listening : L.say}
                 </Button>
               )}
               <button
@@ -202,7 +202,7 @@ function PracticeCard({ focus }: { focus: number }) {
                 onClick={() => setVerdict("reveal")}
                 className="label-mono ml-auto cursor-pointer text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
               >
-                Show me
+                {L.showMe}
               </button>
             </div>
           </form>
@@ -219,12 +219,16 @@ function PracticeCard({ focus }: { focus: number }) {
                 transition={{ duration: 0.45, ease: EASE }}
                 aria-live="polite"
               >
-                <p className={`label-mono ${verdict === "exact" ? "text-pen" : "text-muted-foreground"}`}>
-                  {VERDICT_LABEL[verdict]}
+                <p
+                  className={`label-mono ${verdict === "exact" ? "text-pen" : "text-muted-foreground"}`}
+                >
+                  {L.verdict[verdict]}
                 </p>
                 <p className="mt-3 font-display text-2xl leading-snug md:text-[1.75rem]">
                   {PRACTICE.answer[0]}
-                  <span className="highlight-sweep italic [--sweep:100%]">{PRACTICE.answer[1]}</span>
+                  <span className="highlight-sweep italic [--sweep:100%]">
+                    {PRACTICE.answer[1]}
+                  </span>
                   {PRACTICE.answer[2]}
                 </p>
                 <button
@@ -232,7 +236,7 @@ function PracticeCard({ focus }: { focus: number }) {
                   onClick={reset}
                   className="label-mono mt-4 cursor-pointer text-muted-foreground hover:text-foreground"
                 >
-                  ↺ Try again
+                  {L.tryAgain}
                 </button>
               </motion.div>
             ) : (
@@ -243,7 +247,7 @@ function PracticeCard({ focus }: { focus: number }) {
                 exit={{ opacity: 0 }}
                 className="text-muted-foreground"
               >
-                <span className="label-mono mr-3 text-foreground">Hint</span>
+                <span className="label-mono mr-3 text-foreground">{L.hint}</span>
                 {PRACTICE.hint}
               </motion.p>
             )}
@@ -254,7 +258,7 @@ function PracticeCard({ focus }: { focus: number }) {
       <div className="border-t border-border px-6 py-5 md:px-8">
         <Zone on={focus === 2} n={3}>
           <div className="flex items-center justify-between gap-4">
-            <span className="label-mono text-muted-foreground">Review</span>
+            <span className="label-mono text-muted-foreground">{L.review}</span>
             <ol className="flex flex-1 items-center justify-end gap-1 sm:gap-2">
               {PRACTICE.schedule.map((s, i) => {
                 const done = filed && i === 0;
@@ -292,12 +296,13 @@ function PracticeCard({ focus }: { focus: number }) {
 }
 
 export function Method() {
+  const { method: METHOD, ui } = useCopy();
   const [open, setOpen] = useState(0);
 
   return (
     <section id="method" className="px-6 py-[20vh] md:px-12">
       <div className="grid gap-10 md:grid-cols-12">
-        <p className="label-mono md:col-span-3">§ 03 — {BRAND.name}</p>
+        <p className="label-mono md:col-span-3">{ui.sections.method}</p>
         <div className="md:col-span-9">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -309,7 +314,13 @@ export function Method() {
             {METHOD.headline}
           </motion.h2>
           <p className="mt-8 max-w-xl text-xl leading-snug text-muted-foreground">
-            <span className="mr-1 font-display text-3xl text-foreground">{BRAND.kanji}</span>{" "}
+            {METHOD.noteLead && (
+              <>
+                <span className="mr-1 font-display text-3xl text-foreground">
+                  {METHOD.noteLead}
+                </span>{" "}
+              </>
+            )}
             {METHOD.note}
           </p>
         </div>
@@ -344,7 +355,7 @@ export function Method() {
                   <span
                     className={`label-mono shrink-0 transition-colors ${isOpen ? "text-pen" : "text-faint"}`}
                   >
-                    → <span className="hidden sm:inline">Reason </span>0{s.reason}
+                    → <span className="hidden sm:inline">{ui.reason} </span>0{s.reason}
                   </span>
                 </button>
                 <AnimatePresence initial={false}>
@@ -357,12 +368,15 @@ export function Method() {
                       className="overflow-hidden"
                     >
                       <div className="drawer-inset mb-6 rounded-md px-6 py-5 md:ml-11">
-                        {s.body ? (
+                        {s.body && (
                           <p className="text-lg leading-relaxed text-muted-foreground">
                             <Marked text={s.body} />
                           </p>
-                        ) : (
-                          <ForgettingCurve />
+                        )}
+                        {(s.curve || !s.body) && (
+                          <div className={s.body ? "mt-4" : ""}>
+                            <ForgettingCurve />
+                          </div>
                         )}
                       </div>
                     </motion.div>

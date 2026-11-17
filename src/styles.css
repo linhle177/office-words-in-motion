@@ -226,3 +226,70 @@
   background-color: var(--muted);
   box-shadow: inset 0 14px 18px -16px color-mix(in oklab, var(--foreground) 35%, transparent);
 }
+
+/*
+ * Japanese page (/ja). Latin keeps Instrument Serif / Geist; kana and kanji fall back
+ * to Noto Serif JP / Noto Sans JP. Japanese has no italics, so no fake slanting:
+ * English inside a Japanese line still gets its real italic.
+ * Japanese lines are longer and taller than the English ones, so the big type steps down.
+ */
+html:lang(ja) {
+  --font-sans: "Geist", "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Noto Sans JP", ui-monospace, monospace;
+
+  --text-mega: clamp(4rem, min(13vw, 20svh), 13rem);
+  --text-mega--line-height: 0.95;
+  --text-hero: clamp(1.75rem, 8vw, 7.25rem);
+  --text-hero--line-height: 1.18;
+  --text-giant: clamp(2rem, 5.4vw, 5rem);
+  --text-giant--line-height: 1.3;
+  --text-headline: clamp(1.625rem, 3.8vw, 3.5rem);
+  --text-headline--line-height: 1.35;
+  --text-statement: clamp(1.375rem, 2.6vw, 2.375rem);
+  --text-statement--line-height: 1.45;
+}
+
+html:lang(ja) body {
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+  line-height: 1.8;
+  font-synthesis-style: none;
+}
+
+/* Negative tracking crushes kana; uppercase means nothing in Japanese. */
+html:lang(ja) .font-display {
+  letter-spacing: 0.01em;
+}
+
+html:lang(ja) .label-mono {
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+html:lang(ja) .uppercase {
+  text-transform: none;
+}
+
+/*
+ * Display type wraps only at phrase boundaries (punctuation, or the zero-width spaces
+ * placed in data.ja.ts). Works in Safari too, unlike word-break: auto-phrase.
+ */
+html:lang(ja) .font-display {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+html:lang(ja) :is(h2, h3) {
+  text-wrap: balance;
+}
+
+html:lang(ja) p {
+  text-wrap: pretty;
+  line-break: strict;
+}
+
+/* The early-access sheet uses fixed sizes made for short English lines. */
+html:lang(ja) [role="dialog"] h2 {
+  font-size: clamp(1.875rem, 4.2vw, 2.75rem);
+  line-height: 1.35;
+}

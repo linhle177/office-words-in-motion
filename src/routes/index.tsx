@@ -1,13 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MotionConfig } from "motion/react";
-
-import { Nav, ScrollProgress } from "@/components/landing/Chrome";
-import { Closing } from "@/components/landing/Closing";
-import { EarlyAccessProvider } from "@/components/landing/EarlyAccess";
-import { Hero } from "@/components/landing/Hero";
-import { Method } from "@/components/landing/Method";
-import { Paradox } from "@/components/landing/Paradox";
-import { Reasons } from "@/components/landing/Reasons";
+import { LandingPage } from "@/components/landing/Page";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,19 +24,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return (
-    <MotionConfig reducedMotion="user">
-      <EarlyAccessProvider>
-        <ScrollProgress />
-        <Nav />
-        <main className="overflow-x-clip">
-          <Hero />
-          <Paradox />
-          <Reasons />
-          <Method />
-          <Closing />
-        </main>
-      </EarlyAccessProvider>
-    </MotionConfig>
-  );
+  return <LandingPage />;
 }

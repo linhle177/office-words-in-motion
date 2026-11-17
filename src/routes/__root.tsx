@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -108,8 +109,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // /ja serves the Japanese landing page; everything else is English.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lang = pathname === "/ja" || pathname.startsWith("/ja/") ? "ja" : "en";
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <HeadContent />
       </head>

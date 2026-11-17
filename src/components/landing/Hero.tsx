@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { BRAND, HERO } from "./data";
+import { useCopy } from "./copy";
 import { useEarlyAccess } from "./EarlyAccess";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -155,6 +155,7 @@ function LateLine({
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { open } = useEarlyAccess();
+  const { dict, hero: HERO, ui } = useCopy();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
   const x1 = useTransform(scrollYProgress, [0, 1], ["0vw", "-12vw"]);
@@ -175,10 +176,26 @@ export function Hero() {
         transition={{ duration: 1, delay: 0.1 }}
         className="flex flex-wrap items-baseline gap-x-6 gap-y-2 border-b border-border pb-4"
       >
-        <span className="font-display text-2xl italic">hiki·dashi</span>
-        <span className="font-mono text-sm text-muted-foreground">{BRAND.ipa}</span>
-        <span className="font-display text-lg italic text-muted-foreground">{BRAND.pos}</span>
-        <span className="font-display text-xl">{BRAND.kanji}</span>
+        <span className="font-display text-2xl italic">{dict.head}</span>
+        {dict.ipa && <span className="font-mono text-sm text-muted-foreground">{dict.ipa}</span>}
+        {dict.ipa ? (
+          <>
+            <span className="font-display text-lg italic text-muted-foreground">{dict.pos}</span>
+            <span className="font-display text-xl">{dict.kanji}</span>
+          </>
+        ) : (
+          <>
+            <span className="-ml-5 font-display text-xl">{dict.kanji}</span>
+            <span className="rounded-[2px] border border-muted-foreground/60 px-1 font-display text-sm leading-tight text-muted-foreground">
+              {dict.pos}
+            </span>
+          </>
+        )}
+        {dict.sense && (
+          <span className="basis-full font-display text-base text-muted-foreground lg:basis-auto">
+            {dict.sense}
+          </span>
+        )}
         <span className="label-mono ml-auto hidden text-muted-foreground sm:inline">
           {HERO.eyebrow}
         </span>
@@ -198,6 +215,7 @@ export function Hero() {
         <Line delay={0.15} x={x1}>
           {HERO.lineOne[0]}
           <LaggingWord text={HERO.lineOne[1]} />
+          {HERO.lineOne[2]}
         </Line>
         <Line delay={0.3} x={x2} className="pl-[8vw]">
           {HERO.lineTwo}
@@ -233,7 +251,7 @@ export function Hero() {
         transition={{ duration: 1, delay: 1.4 }}
         className="label-mono pointer-events-none absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-muted-foreground lg:flex"
       >
-        Scroll
+        {ui.scroll}
         <span className="relative h-12 w-px overflow-hidden bg-border">
           <motion.span
             className="absolute inset-x-0 top-0 h-1/2 bg-foreground"
